@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuzhu.project.api.mapper.UserShareMapper" >
+  <resultMap id="BaseResultMap" type="com.zhuzhu.project.api.model.UserShare" >
+    <id column="uuid" property="uuid" jdbcType="INTEGER" />
+    <result column="user_serial_id" property="userSerialId" jdbcType="VARCHAR" />
+    <result column="share_img_path" property="shareImgPath" jdbcType="VARCHAR" />
+    <result column="share_msg" property="shareMsg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.userSerialId != null" >
+         and user_serial_id = #{condition.userSerialId}
+      </if>
+      <if test="condition.shareImgPath != null" >
+         and share_img_path = #{condition.shareImgPath}
+      </if>
+      <if test="condition.shareMsg != null" >
+         and share_msg = #{condition.shareMsg}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    uuid, user_serial_id, share_img_path, share_msg
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.zhuzhu.project.api.model.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from zz_user_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zz_user_share
+    where uuid = #{uuid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zz_user_share
+    where uuid = #{uuid}
+  </delete>
+  <delete id="deleteByParams" parameterType="com.zhuzhu.project.api.model.Criteria" >
+    delete from zz_user_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhuzhu.project.api.model.UserShare" >
+    insert into zz_user_share (uuid, user_serial_id, share_img_path, share_msg)
+    values (#{uuid}, #{userSerialId}, #{shareImgPath}, #{shareMsg})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhuzhu.project.api.model.UserShare" >
+    insert into zz_user_share
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="userSerialId != null" >
+        user_serial_id,
+      </if>
+      <if test="shareImgPath != null" >
+        share_img_path,
+      </if>
+      <if test="shareMsg != null" >
+        share_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid},
+      </if>
+      <if test="userSerialId != null" >
+        #{userSerialId},
+      </if>
+      <if test="shareImgPath != null" >
+        #{shareImgPath},
+      </if>
+      <if test="shareMsg != null" >
+        #{shareMsg},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="com.zhuzhu.project.api.model.Criteria" resultType="java.lang.Integer" >
+    select count(*) from zz_user_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update zz_user_share
+    <set >
+      <if test="record.uuid != null" >
+        uuid = #{record.uuid},
+      </if>
+      <if test="record.userSerialId != null" >
+        user_serial_id = #{record.userSerialId},
+      </if>
+      <if test="record.shareImgPath != null" >
+        share_img_path = #{record.shareImgPath},
+      </if>
+      <if test="record.shareMsg != null" >
+        share_msg = #{record.shareMsg},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update zz_user_share
+    set uuid = #{record.uuid},
+      user_serial_id = #{record.userSerialId},
+      share_img_path = #{record.shareImgPath},
+      share_msg = #{record.shareMsg}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhuzhu.project.api.model.UserShare" >
+    update zz_user_share
+    <set >
+      <if test="userSerialId != null" >
+        user_serial_id = #{userSerialId},
+      </if>
+      <if test="shareImgPath != null" >
+        share_img_path = #{shareImgPath},
+      </if>
+      <if test="shareMsg != null" >
+        share_msg = #{shareMsg},
+      </if>
+    </set>
+    where uuid = #{uuid}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhuzhu.project.api.model.UserShare" >
+    update zz_user_share
+    set user_serial_id = #{userSerialId},
+      share_img_path = #{shareImgPath},
+      share_msg = #{shareMsg}
+    where uuid = #{uuid}
+  </update>
+</mapper>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<HEAD>
+		<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<TITLE>登陆页面</TITLE>
+		<!-- ================= 页面头的图标 ================== -->
+    
+		<link rel="icon" type="image/x-icon" href="/static/img/wechat.jpg"/>
+		<script src="/static/login/js/jquery-3.4.1.js" type="text/javascript"></script>
+		<script src="/static/login/js/bootstrap.min.js" type="text/javascript"></script>
+		<link href="/static/login/css/login.css" rel="stylesheet">
+		
+
+		<SCRIPT type="text/javascript">
+			$(function() {
+				//得到焦点
+				$("#user_password").focus(function() {
+					$("#left_hand").animate({
+						left: "150",
+						top: " -38"
+					}, {
+						step: function() {
+							if(parseInt($("#left_hand").css("left")) > 140) {
+								$("#left_hand").attr("class", "left_hand");
+							}
+						}
+					}, 2000);
+					$("#right_hand").animate({
+						right: "-64",
+						top: "-38px"
+					}, {
+						step: function() {
+							if(parseInt($("#right_hand").css("right")) > -70) {
+								$("#right_hand").attr("class", "right_hand");
+							}
+						}
+					}, 2000);
+				});
+				//失去焦点
+				$("#user_password").blur(function() {
+					$("#left_hand").attr("class", "initial_left_hand");
+					$("#left_hand").attr("style", "left:100px;top:-12px;");
+					$("#right_hand").attr("class", "initial_right_hand");
+					$("#right_hand").attr("style", "right:-112px;top:-12px");
+				});
+
+				//提交表单
+				$("#user_login_submit").click(function(){
+					var userSerialId = $("#user_serial_id").val()
+					var userPassword = $("#user_password").val()
+					console.log(userPassword)
+					$.ajax({
+						async:false,
+						contentType: "application/json;charset=utf-8",
+						dataType:"json",
+						type:"POST",
+						url:"/login",
+						data:JSON.stringify({ userSerialId: userSerialId ,userPassword :userPassword}),
+						success:function(data){
+							console.log(data)
+							if(data){
+								window.location.href = "/demo";
+							}else{
+								alert("登陆失败");
+							}
+						},error:function(data){
+							alert("Error");
+						}
+					});
+				})
+
+			});
+		</SCRIPT>
+	</HEAD>
+
+	<BODY>
+	 <form id="login-Form">
+		<DIV class="top_div"></DIV>
+		<DIV style="background: rgb(255, 255, 255); margin: -100px auto auto; border: 1px solid rgb(231, 231, 231); border-image: none; width: 400px; height: 200px; text-align: center;">
+			<DIV style="width: 165px; height: 96px; position: absolute;">
+				<DIV class="tou"></DIV>
+				<DIV class="initial_left_hand" id="left_hand"></DIV>
+				<DIV class="initial_right_hand" id="right_hand"></DIV>
+			</DIV>
+			<P style="padding: 30px 0px 10px; position: relative;">
+				<SPAN class="u_logo"></SPAN>
+				<INPUT class="ipt" type="text" placeholder="请输入用户名" name="userSerialId" id="user_serial_id">
+			</P>
+			<P style="position: relative;">
+				<SPAN class="p_logo"></SPAN>
+				<INPUT class="ipt" type="password" placeholder="请输入密码" name="userPassword" id="user_password">
+			</P>
+			<DIV style="height: 50px; line-height: 50px; margin-top: 30px; border-top-color: rgb(231, 231, 231); border-top-width: 1px; border-top-style: solid;">
+			 <P style="margin: 0px 35px 20px 45px;">
+				<P style="margin: 0px 35px 20px 45px;">
+			  <input type="button" style="background: rgb(0, 142, 173); padding: 5px 100px; border-radius: 4px; border: 1px solid rgb(26, 117, 152);
+			   border-image: none; color: rgb(255, 255, 255); font-weight: bold;cursor: pointer" 
+				value="登录" id="user_login_submit"> </P>
+			</DIV>
+		</DIV>
+		 </form>
+	</BODY>
+</HTML>

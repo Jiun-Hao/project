@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="true" xmlns="http://ch.qos.logback/xml/ns/logback"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
+               https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd
+               http://ch.qos.logback/xml/ns/logback">
+
+    <contextName>mypro-zhuzhu-server</contextName>
+
+    <!--接口日志-->
+    <appender name="zhuzhu_api" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/tmp/log/mypro/zhuzhu-api.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/tmp/log/mypro/zhuzhu-api-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>32MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 保留365天日志，最大100GB-->
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger [%file:%line] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--普通日志记录【文件日志】-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/tmp/log/mypro/zhuzhu-common.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/tmp/log/mypro/zhuzhu-common-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>32MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 保留365天日志，最大100GB-->
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger [%file:%line] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--命令行控制台日志-->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger [%file:%line] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 在dsp_api的appender中，Redis的连接信息只打印INFO级别的 -->
+    <logger level="INFO" name="org.springframework.data.redis.core.RedisConnectionUtils">
+        <appender-ref ref="zhuzhu_api"/>
+    </logger>
+
+    <!--本地环境，主要是开启了Console打印-->
+    <springProfile name="dev,vm">
+        <root level="DEBUG">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="zhuzhu_api"/>
+            <appender-ref ref="Console"/>
+        </root>
+    </springProfile>
+
+    <!--测试服，关闭Console打印-->
+    <springProfile name="int,uat,test">
+        <root level="DEBUG">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="zhuzhu_api"/>
+        </root>
+    </springProfile>
+
+    <!--正式服，关闭console打印，还应调高日志level-->
+    <springProfile name="prd">
+        <root level="DEBUG">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="zhuzhu_api"/>
+        </root>
+    </springProfile>
+
+</configuration>
