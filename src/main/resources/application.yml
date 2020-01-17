@@ -26,3 +26,6 @@ thymeleaf:
   #encoding: UTF-8
   #content-type: text/html
   mode: HTML5
+logging:
+  level:
+    org.thymeleaf: info

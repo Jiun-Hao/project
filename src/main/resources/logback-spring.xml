@@ -57,8 +57,8 @@
         </encoder>
     </appender>
 
-    <!-- 在dsp_api的appender中，Redis的连接信息只打印INFO级别的 -->
-    <logger level="INFO" name="org.springframework.data.redis.core.RedisConnectionUtils">
+    <!-- 在dsp_api的appender中，thymeleaf只打印INFO级别的 -->
+    <logger level="error" name="org.thymeleaf.standard.processor.StandardAttrTagProcessor">
         <appender-ref ref="zhuzhu_api"/>
     </logger>
 
@@ -87,4 +87,5 @@
         </root>
     </springProfile>
 
+    log4j.logger.org.thymeleaf=info
 </configuration>

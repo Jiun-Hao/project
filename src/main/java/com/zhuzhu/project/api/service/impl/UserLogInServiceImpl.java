@@ -21,10 +21,7 @@ public class UserLogInServiceImpl implements UserLogInService {
         if(users.size()==0){
             return false;
         }
-        System.out.println("数据库密码："+users.get(0).getUserPassword());
-        System.out.println("输入密码："+user.getUserPassword());
         if(users.get(0).getUserPassword().equals(user.getUserPassword())){
-            System.out.println("成功i");
             return true;
         }
         return false;

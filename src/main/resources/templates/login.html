@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<HEAD>
 		<META http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<TITLE>static登陆页面</TITLE>
+		<TITLE>登陆页面</TITLE>
 		<!-- ================= 页面头的图标 ================== -->
 		<link rel="icon" type="image/x-icon" href="/img/wechat.jpg"/>
 		<link rel="stylesheet" type="text/css" href="/login/css/login.css" />
@@ -38,12 +38,12 @@
 	</HEAD>
 
 	<BODY>
-		 <form class="box" action="/login" method="post" >
+		 <form class="box" action="/login" method="post">
 			 <h1>Login</h1>
-			 <input type="text" name="userSerialId" placeholder="Username" id="user_serial_id">
+			 <input type="text" name="userSerialId" placeholder="Username" id="user_serial_id" th:value="${userSerialId}">
 			 <input type="password" name="userPassword" placeholder="Password" id="user_password">
+			 <div th:text="${LoginRes}" style="color: red;font-size: 5px;height: 5px"/>
 			 <input type="submit" id="user_login_submit" name="" value="Login">
-			 <p th:text="${LoginRes}" style="color: red"/>
 		 </form>
 	</BODY>
 </HTML>
