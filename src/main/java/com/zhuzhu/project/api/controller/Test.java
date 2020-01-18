@@ -30,7 +30,7 @@ public class Test {
         if(userLogInService.login(user)){
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            return "demo";
+            return "main";
         }
         request.setAttribute("LoginRes", "账号或密码错误");
         return "login";
