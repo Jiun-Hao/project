@@ -7,10 +7,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>home</title>
+    <script src="js/jquery-3.4.1.js"></script>
+    <script>
+        $(function() {
+            $('img').click(function () {
+                //获取图片路径
+                var imgsrc = $(this).attr("src");
+                console.log(imgsrc);
+                var opacityBottom = '<div class="opacityBottom" style = "display:none"><img class="bigImg" src="' + imgsrc + '"></div>';
+                $(document.body).append(opacityBottom);
+                toBigImg();//变大函数
+            });
+        })
+        function toBigImg() {
+            $(".opacityBottom").addClass("opacityBottom");//添加遮罩层
+            $(".opacityBottom").show();
+            $("html,body").addClass("none-scroll");//下层不可滑动
+            $(".bigImg").addClass("bigImg");//添加图片样式
+            $(".opacityBottom").click(function () {//点击关闭
+                $("html,body").removeClass("none-scroll");
+                $(".opacityBottom").remove();
+            });
+        }
+    </script>
+    <!-- <script>
+        var protoWidth = 0,　　//这个很重要是恢复图片时候用到的值
+                protoHeight = 0;　　//同上
+        jQuery(document).ready(function() {
+            $(document).on('click', function (e) {
+                var a = $(e.target);   //获取点击目标
+                if(a.is('img') && !a.is('.screenimg')){
+                    bigimg(a);
+                }else{
+                    normalimg();
+                }
+            });
+        });
+
+
+        function bigimg(a) {
+         var sw = $('body').width() || $(window).width() ,    //获得浏览器可视区域的宽度
+             sh = $('body').height() / 2 || $(window).height() / 2,    //获得浏览器可视区域的高度
+             w = a.width(),     //获得图片本身宽
+             h = a.height(),    //获得图片本身高
+             sc = a.width() / a.height(),   //获得图片的比例
+             st = $('body').scrollTop() || $(document).scrollTop();   //获取document被卷去的值
+             t = sh - (900 / sc / 2) + st,  //计算图片在可视区域垂直坐标的位置
+             l = sw - (900 / 2);    //计算图片在可视区域横向坐标的位置
+         if (protoWidth === 0) {
+             protoWidth = w;
+             protoHeight = h;
+         };
+        //  $('html').height(sh*2).css('overflow','hidden');
+        //  a.css({'position': 'absolute', 'width': 0}).animate({'width': 900,'top': t,'left': l},500).addClass('screenimg');
+        //  $('.cover').animate({'top':st},200).fadeIn(300);
+        $('body').css("background-color","#000000")
+        a.css("width",sw)
+        a.css("height",sh)
+};
+
+function normalimg() {
+        $('html').height('100%').css('overflow','');
+        $('.screenimg').animate({'width': protoWidth}, 300).css({'position': '','top': '','left': ''}).removeClass('screenimg');
+        $('.cover').fadeOut(300).animate({'top':0},200);
+};
+    </script> -->
     <style type="text/css">
         body{
             background-color: white;
             color:#000000;
+        }
+        #id{
+            width:100%;
+            height:auto;
+        }
+        /*使图片在浏览器中居中显示*/
+        .bigImg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /*图片向左移动自身宽度的50%, 向上移动自身高度的50%。*/
+            transform: translate(-50%,-50%);
+        }
+        /*遮罩层*/
+        .opacityBottom {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
@@ -32,7 +119,7 @@
     <div style="padding-top: 5px;">
         <span style="font-size: 18px;">
             新的一年暴富，开心。</span>
-        <img src="image/qq.png" style="width:100%;height:auto;">
+        <img src="image/qq.png" id="id" class style data-action="zoom">
     </div>
 </div>
 
@@ -74,7 +161,7 @@
     <div style="padding-top: 5px;">
         <span style="font-size: 18px;">
             今天天气还不错哦。</span>
-        <img src="image/tq.jpg" style="width:100%;height:auto;">
+        <img src="image/qzl.jpg" style="width:100%;height:auto;">
     </div>
 </div>
 
